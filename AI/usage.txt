@@ -1,0 +1,18 @@
+needed to download the data somehow ... 
+
+ChatGPT made this for me .. 
+
+from torchvision import datasets
+from PIL import Image
+import os
+
+mnist = datasets.MNIST(
+    root="mnist_data",
+    train=True,
+    download=True
+)
+
+os.makedirs("png_images", exist_ok=True)
+
+for i, (img, label) in enumerate(mnist):
+    img.save(f"png_images/{label}_{i}.png")
