@@ -12,19 +12,16 @@ typedef struct _png {
     uint32_t num_of_pixels; 
 } png; 
 
-// Per pixel RGB values 
-typedef struct _PixelRGB {
+// Per pixel greyscale values [0-255] inclusive
+typedef struct _PixelGrey {
 
-    uint32_t r;
-    uint32_t g; 
-    uint32_t b; 
+    uint8_t grey; 
 
-} PixelRGB; 
-
+} PixelGrey; 
 
 // ------------ FUNCTIONS -----------------
 png get_png_info(const char * inputPNG);
-PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG);
-void print_png_data(png image, PixelRGB * rgb_array);
+PixelGrey* pixels_in_png_to_array(png* picture_size, const char* inputPNG);
+void print_png_data(png image, PixelGrey * grey_array);
 
 #endif

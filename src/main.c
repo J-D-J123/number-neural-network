@@ -16,9 +16,9 @@ int main() {
 
     // read the png image first 28 * 28 pixels    
     png image = get_png_info("0_1.png");
-    PixelRGB * rgb_array = pixels_in_png_to_array(&image, "0_1.png"); 
+    PixelGrey * pixels_greyscale = pixels_in_png_to_array(&image, "0_1.png"); 
 
-    print_png_data(image, rgb_array); 
+    print_png_data(image, pixels_greyscale); 
 
     return 0;     
 }
