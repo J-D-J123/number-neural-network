@@ -107,3 +107,25 @@ PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
     return pixels; 
 
 } 
+
+// print values to see if it works 
+void print_png_data(png image, PixelRGB * rgb_array) {
+
+    // png data
+    printf("the image width is: %u and the height is: %u total pixels is: %u\n", image.width, image.height, image.num_of_pixels);
+    
+    printf("the RGB data is as follows:\n");
+
+    //RGB values data
+    for (int y = 0; y < image.height; y++) {
+        for (int x = 0; x < image.width; x++) {
+
+            // figure out correct index in rgb_array 
+            int index = y * image.width + x; 
+
+            // go through the array and print out each data item 
+            printf("[%3u, %3u, %3u] ", rgb_array[index].r, rgb_array[index].g, rgb_array[index].b);
+        }
+        printf("\n");
+    }
+}
