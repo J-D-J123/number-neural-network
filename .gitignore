@@ -1,0 +1,6 @@
+
+
+# data ignore
+/mnist_data/
+/png_images/
+/tests/
