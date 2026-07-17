@@ -21,4 +21,9 @@ typedef struct _PixelRGB {
 
 } PixelRGB; 
 
+
+// ------------ FUNCTIONS -----------------
+png get_png_info(const char * inputPNG);
+PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG);
+
 #endif

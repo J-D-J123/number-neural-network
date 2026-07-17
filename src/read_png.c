@@ -16,7 +16,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../structs/stb_image.h"
 
-#include "../structs/read_png.h"
 #include "../structs/png.h"
 
 /**
