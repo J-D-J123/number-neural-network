@@ -92,9 +92,6 @@ PixelGrey* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
             // values 0 - 255
             uint8_t grey = raw_pixels[current_byte_index];
 
-            // divide by 255 so it is a true grey scale 
-            grey = grey / 255; 
-
             // not picture_size->height * picture_size->width = 28 * 28 = 784 + 1 = 785 -> which is out of frame out of 
             // the png frame y * 28 + x = 0 through 783 aka 784 
             // pixels[y * picture_size->width + x] = (PixelGrey) {r, g, b};
@@ -107,7 +104,6 @@ PixelGrey* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
     stbi_image_free(raw_pixels); 
 
     return pixels; 
-
 } 
 
 // print values to see if it works 
