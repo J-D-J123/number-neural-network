@@ -51,11 +51,11 @@ png get_png_info(const char * inputPNG) {
  * @param int png* picture_size which has the height and width of the png 
  * @param char* inputPNG which is the "{input image}"
  */
-PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
+PixelGrey* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
 
     int width, height, channels; 
 
-    unsigned char * raw_pixels = stbi_load(inputPNG, &width, &height, &channels, 3); 
+    unsigned char * raw_pixels = stbi_load(inputPNG, &width, &height, &channels, 1); 
 
     if(!raw_pixels) {
 
@@ -63,10 +63,10 @@ PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
         return NULL; 
     }
 
-    // make PixelRGB array to return 
-    PixelRGB* pixels = malloc(picture_size->height * picture_size->width * sizeof(PixelRGB));    //  index via pixels[y * w + x] = (PixelRGB) {r, g, b}
+    // make PixelGrey array to return 
+    PixelGrey* pixels = malloc(picture_size->height * picture_size->width * sizeof(PixelGrey));    //  index via pixels[y * w + x] = (PixelGrey) {r, g, b}
 
-    // PixelRGB array fails to malloc
+    // PixelGrey array fails to malloc
     if (!pixels) {
         printf("Error making pixels array in pixels_in_png_to_2D_array(png * picture_size)\n");
 
@@ -80,24 +80,23 @@ PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
         for(int x = 0; x < picture_size->width; x++) {
 
             // get pixel color RGB color into the array 
-            // how the fuck do I read color values FUCK
             // https://stackoverflow.com/questions/4839623/getting-pixel-color-in-c
 
             // map the 2D grid (x, y) from x: width y: height to a 1D pixel index
-            int target_pixel_index = y * picture_size->width + x; 
+            // int target_pixel_index = y * picture_size->width + x; 
 
-            // map pixel index to byte index, each pixel has 3 bytes: R, G, B 
-            int current_byte_index = target_pixel_index * 3; 
+            // map pixel index to byte index, each pixel is forced to have only 1 byte
+            int current_byte_index = y * picture_size->width + x; ; 
 
             // read the channels out of the pointer array, just getting the values r,
-            uint8_t r = raw_pixels[current_byte_index];
-            uint8_t g = raw_pixels[current_byte_index + 1]; 
-            uint8_t b = raw_pixels[current_byte_index + 2]; 
+            // values 0 - 255
+            uint8_t grey = raw_pixels[current_byte_index];
 
             // not picture_size->height * picture_size->width = 28 * 28 = 784 + 1 = 785 -> which is out of frame out of 
             // the png frame y * 28 + x = 0 through 783 aka 784 
-            // pixels[y * picture_size->width + x] = (PixelRGB) {r, g, b};
-            pixels[target_pixel_index] = (PixelRGB){r, g, b};
+            // pixels[y * picture_size->width + x] = (PixelGrey) {r, g, b};
+            pixels[current_byte_index].grey = grey;
+
         }
     }
 
@@ -105,5 +104,26 @@ PixelRGB* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
     stbi_image_free(raw_pixels); 
 
     return pixels; 
-
 } 
+
+// print values to see if it works 
+void print_png_data(png image, PixelGrey * grey_array) {
+
+    // png data
+    printf("the image width is: %u and the height is: %u total pixels is: %u\n", image.width, image.height, image.num_of_pixels);
+    
+    printf("the greyscale data is as follows:\n");
+
+    //RGB values data
+    for (int y = 0; y < image.height; y++) {
+        for (int x = 0; x < image.width; x++) {
+
+            // figure out correct index in rgb_array 
+            int index = y * image.width + x; 
+
+            // go through the array and print out each data item 
+            printf("[%3u] ", grey_array[index].grey);
+        }
+        printf("\n");
+    }
+}
