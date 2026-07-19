@@ -55,27 +55,34 @@ Network setup_network(int * neurons_per_layer, int num_of_layers) {
         Layer * current = &network.layers[i]; 
         Layer * next = &network.layers[i + 1]; 
 
+        current->weights = malloc(sizeof(float *) * next->num_neurons); 
+
         // go through every neruon in the current layer 
         // each neuron needs to connect to each neuron in the next layer
-        for (int j = 0; j < current->num_neurons; j++) {
+        for (int j = 0; j < next->num_neurons; j++) {
+
+            current->weights[j] = malloc(sizeof(float) * current->num_neurons); 
 
             // connects with the next layer via a loop 
             // go through each neuron in the next layer
             // fully creates a "Road" where each neuron truly points to each other
-            for (int k = 0; k < next->num_neurons; k++) {
+            for (int k = 0; k < current->num_neurons; k++) {
 
                 // input layer neuron connects to middle layer neuron 
-                network.connections[connection_index].previous = &current->neurons[j]; 
+                // network.connections[connection_index].previous = &current->neurons[j]; 
 
-                // middle layer neuron connects to input layer neuron
-                network.connections[connection_index].next = &current->neurons[k]; 
+                // // middle layer neuron connects to input layer neuron
+                // network.connections[connection_index].next = &current->neurons[k]; 
 
-                // initialize the weights randomly and not just 0.0f of each Connection
-                // network.connections[connection_index].weight = 0.0f; 
-                // generate weight with value from [-1.0, 1.0]
-                network.connections[connection_index].weight = ((float) rand() / RAND_MAX) * 2.0f - 1.0f; 
+                // // initialize the weights randomly and not just 0.0f of each Connection
+                // // network.connections[connection_index].weight = 0.0f; 
+                // // generate weight with value from [-1.0, 1.0]
+                // network.connections[connection_index].weight = ((float) rand() / RAND_MAX) * 2.0f - 1.0f; 
 
-                connection_index++; 
+                // connection_index++; 
+
+                // assign random weight from [-1.0, 1.0] inclusive
+                current->weights[j][k] = ((float) rand()/ RAND_MAX) * 2.0f - 1.0f; 
             }
         }
     }
@@ -116,9 +123,39 @@ void forward_pass(Network * network, png * image) {
     // activation is just a sum of all the neurons to the next layer aka 
     // if the sum = 0.56
     // sigmoid(0.56) = 0.636
+    
+    // load image into input layer 
+    Layer * input = &network->layers[0];
 
+    // input PNG pixels into the input layer
+    for (int i = 0; i < input->num_neurons; i++) {
 
+        // neuron activation = pixels array 
+        input->neurons[i].activation = image->pixels[i].grey / 255.0f;  
+    }
 
+    // now go through all calcuations for each layer including the input layer
+    for (int j = 0; j < network->num_layers; j++) {
+
+        Layer * current = &network->layers[j]; 
+        Layer * next = &network->layers[j + 1]; 
+
+        // cacluate the z value = SUM (inputs x weights) + bias
+        for (int k = 0; k < next->num_neurons; k++) {
+
+            float z = next->neurons[j].bias; 
+
+            // loop through the current layer 
+            for(int h = 0; h < current->num_neurons; h++) {
+
+                // SUM (inputs x weights) + bias (aka z)
+                z += (current->neurons[h].activation * current->weights[j][h]); 
+            }
+
+            // ReLU() function call
+            next->neurons[k].activation = compute_ReLU(z); 
+        }
+    }
 }
 
 void backpropagation(Network * network, int label) {

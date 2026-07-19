@@ -1,5 +1,5 @@
-#ifndef PNG_STRUCTS_H
-#define PNG_STRUCTS_H
+#ifndef PNG_H
+#define PNG_H
 
 #include <stdint.h>
 
@@ -8,8 +8,10 @@ typedef struct _png {
 
     uint32_t width; 
     uint32_t height; 
+    uint32_t num_of_pixels;
+    
+    PixelGrey * pixels; 
 
-    uint32_t num_of_pixels; 
 } png; 
 
 // Per pixel greyscale values [0-255] inclusive

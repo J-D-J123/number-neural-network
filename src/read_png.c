@@ -26,7 +26,7 @@
 png get_png_info(const char * inputPNG) {
 
     // start as empty 
-    png image = {0, 0, 0};
+    png image = {0};
 
     int width, height, channels; 
 
@@ -35,6 +35,10 @@ png get_png_info(const char * inputPNG) {
         image.width = width; 
         image.height = height; 
         image.num_of_pixels = width * height;
+
+        // save to pixels array for FFNN 
+        image.pixels = pixels_in_png_to_array(&image, inputPNG); 
+
     } else {
 
         printf("Error, failed to read image for %s\n", inputPNG);
@@ -64,7 +68,7 @@ PixelGrey* pixels_in_png_to_array(png* picture_size, const char* inputPNG) {
     }
 
     // make PixelGrey array to return 
-    PixelGrey* pixels = malloc(picture_size->height * picture_size->width * sizeof(PixelGrey));    //  index via pixels[y * w + x] = (PixelGrey) {r, g, b}
+    PixelGrey * pixels = malloc(picture_size->num_of_pixels * sizeof(PixelGrey));    //  index via pixels[y * w + x] = (PixelGrey) {r, g, b}
 
     // PixelGrey array fails to malloc
     if (!pixels) {

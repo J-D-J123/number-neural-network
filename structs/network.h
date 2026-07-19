@@ -1,6 +1,6 @@
 /**
  * Author:          Joseph Johnson 
- * File:            connection.h 
+ * File:            network.h 
  * Des:             connects each neuron with the next layer 
  *                  also called the "Weight" of the connection used for reinforcement learning 
  */
@@ -27,22 +27,19 @@ typedef struct Layer {
     int num_neurons; 
     Neuron * neurons; 
 
+    // matrix of weights per layer to next 
+    // [0.5, 0.2, 0.1] hidden layer 1
+    // [0.2, 0.4, 0.7] hidden layer 2
+    // and so on...
+    float ** weights; 
+
 } Layer; 
-
-typedef struct Connection {
-
-    float weight; 
-
-    Neuron * previous; 
-    Neuron * next;   
-
-} Connection; 
 
 typedef struct Network {
 
     int num_layers; 
+
     Layer * layers; 
-    Connection * connections; 
 
 } Network; 
 
