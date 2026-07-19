@@ -43,3 +43,15 @@ https://www.geeksforgeeks.org/machine-learning/what-is-the-role-of-the-bias-in-n
 https://www.geeksforgeeks.org/deep-learning/the-role-of-weights-and-bias-in-neural-networks/
 https://www.mathwords.com/w/weight.htm
 https://ai.stackexchange.com/questions/34726/why-do-neural-network-weights-have-to-be-between-0-and-1
+
+07/18/2026
+https://www.neuraldesigner.com/blog/5_algorithms_to_train_a_neural_network/
+https://einsteinmed.edu/uploadedFiles/labs/Yaohao-Wu/Lecture%209.pdf
+https://www.google.com/search?q=random+number+generator+c&ie=UTF-8
+https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c
+https://stackoverflow.com/questions/52051111/clarification-for-rand-max-and-rand-in-c-stdlib-h
+https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm
+https://www.geeksforgeeks.org/deep-learning/what-is-forward-propagation-in-neural-networks/
+https://www.techonthenet.com/c_language/standard_library_functions/math_h/log.php
+https://en.wikipedia.org/wiki/Rectified_linear_unit
+https://en.wikipedia.org/wiki/Softmax_function
