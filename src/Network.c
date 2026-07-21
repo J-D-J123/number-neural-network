@@ -39,12 +39,13 @@ Network setup_network(int * neurons_per_layer, int num_of_layers) {
 
             // set them all to 0; 
             network.layers[i].neurons[j].activation = 0.0f; 
-            network.layers[i].neurons[j].bias = 0.0f; 
+            network.layers[i].neurons[j].z = 0.0f; 
+            network.layers[i].neurons[j].delta = 0.0f; 
+
+            // random biase value 
+            network.layers[i].neurons[j].bias = ((float) rand() / RAND_MAX) * 2.0f - 1.0f; 
         }
     }
-
-    // create the connections now from each neuron
-    int connection_index = 0; 
 
     // count when each pair gets connected (do not do the last layer) 
     // loops through each layer aka total num of layers
@@ -135,7 +136,7 @@ void forward_pass(Network * network, png * image) {
     }
 
     // now go through all calcuations for each layer including the input layer
-    for (int j = 0; j < network->num_layers; j++) {
+    for (int j = 0; j < network->num_layers - 1; j++) {
 
         Layer * current = &network->layers[j]; 
         Layer * next = &network->layers[j + 1]; 
@@ -143,17 +144,18 @@ void forward_pass(Network * network, png * image) {
         // cacluate the z value = SUM (inputs x weights) + bias
         for (int k = 0; k < next->num_neurons; k++) {
 
-            float z = next->neurons[j].bias; 
+            float z = next->neurons[k].bias; 
 
             // loop through the current layer 
             for(int h = 0; h < current->num_neurons; h++) {
 
                 // SUM (inputs x weights) + bias (aka z)
-                z += (current->neurons[h].activation * current->weights[j][h]); 
+                z += (current->neurons[h].activation * current->weights[k][h]); 
             }
 
-            // ReLU() function call
-            next->neurons[k].activation = compute_ReLU(z); 
+            // ReLU() function call & save z to k.z so it is not 0
+            next->neurons[k].z = z; 
+            next->neurons[k].activation = compute_ReLU(next->neurons[k].z); 
         }
     }
 }

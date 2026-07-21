@@ -20,6 +20,9 @@ typedef struct Neuron {
     float activation; 
     float bias; 
 
+    float z; 
+    float delta; 
+
 } Neuron; 
 
 typedef struct Layer {
