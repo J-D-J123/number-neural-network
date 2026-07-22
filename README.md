@@ -1,5 +1,5 @@
-# Number-Neural-Network 
-A handwritten number classifier [1, 10] built entierly in C with little to no help from AI. 
+# Handwritten-Digit-Classifier
+Bult a neural network from scratch in C to classify handwritten digits (MNIST), without ML frameworks. 
 
 ## Why? 
 A lot of code is written by AI and plenty of people and even students can not explain what the AI wrote or how their program works. For that exact reason, that is why I decided to learn the foundations of neural networks (NN) by myself with little to zero use of AI. I
