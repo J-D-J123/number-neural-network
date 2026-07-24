@@ -55,3 +55,14 @@ https://www.geeksforgeeks.org/deep-learning/what-is-forward-propagation-in-neura
 https://www.techonthenet.com/c_language/standard_library_functions/math_h/log.php
 https://en.wikipedia.org/wiki/Rectified_linear_unit
 https://en.wikipedia.org/wiki/Softmax_function
+
+07/23/2026
+https://en.wikipedia.org/wiki/Feedforward_neural_network
+https://www.google.com/search?q=for+2d+arrays+which+one+comes+first+k+or+h&ie=UTF-8
+https://www.geeksforgeeks.org/machine-learning/ml-one-hot-encoding/
+https://www.sciencedirect.com/topics/neuroscience/feedforward-neural-network
+https://stackoverflow.com/questions/42042561/relu-derivative-in-backpropagation
+https://stackoverflow.com/questions/10626134/derivative-of-sigmoid?rq=3
+https://stackoverflow.com/questions/50121887/relu-derivative-with-numpy?rq=3
+https://stackoverflow.com/questions/42042561/relu-derivative-in-backpropagation
+https://stats.stackexchange.com/questions/333394/what-is-the-derivative-of-the-relu-activation-function

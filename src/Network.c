@@ -115,6 +115,13 @@ Network train_network(Network network, png * input_pngs, int num_of_pngs) {
 
 }
 
+/**
+ * forward_pass(Network * network, png * iamge) takes in the network goes through each neuron 
+ *  and computes the variable z and the activation function f(z) and stores it into the neuron directly
+ * 
+ * @param network just the old hand-dandy ENTIRE NEURAL NETWORK :) I'm tired
+ * @param image is the input image inputed into the input layer neuorns
+ */
 void forward_pass(Network * network, png * image) {
 
     // each neuron (z)
@@ -160,9 +167,72 @@ void forward_pass(Network * network, png * image) {
     }
 }
 
+/**
+ * backpropagation(Network * network, int label) computes the delta for every neuron in the network. 
+ *  delta stands for the amount of error. This algorithm starts backward from the output layer and then 
+ *  goes through the hidden layers. 
+ * 
+ * @param network is the neural network inputed and computed. After a forward pass the activation functions 
+ *                      and z values are stored in each neuron 
+ * @param label is the correct digit for the image [0.9] inclusive. Represents the output neuron and the correct number to be activated. 
+ *                      aka which neuron on the output layer.
+ */
 void backpropagation(Network * network, int label) {
 
+    // index of output layer 
+    // annoying index error since the setup_network takes the actual amount of 
+    //  number of layers (Ex. 4 = 4 layers) you need to subtract 1 to 
+    //  correctly index the layers backwards
+    int num_layers = network->num_layers; 
+    int output_layer_index = network->num_layers - 1;
 
+    // loop over every neuron in the output layer
+    int num_of_neurons = network->layers[output_layer_index].num_neurons;
+
+    for (int i = 0; i < num_of_neurons; i++) {
+
+        // figure out the "target" value
+        // Ex. if 1.0 if i == label else 0.0 
+        double target; 
+
+        //  One Hot Encoding in Backpropagation where 1 value is the answer 
+        //  since all answers are from [1, 10] inclusive it is easier to have the "One Hot" approach
+        if (i == label) {
+
+            target = 1.0; 
+
+        } else {
+
+            target = 0.0; 
+        }
+
+        // caculate delta, which is the difference between the expected value vs the guessed value via the network 
+        network->layers[output_layer_index].neurons[i].delta = network->layers[output_layer_index].neurons[i].activation - target; 
+    }
+
+    for (int n = num_layers - 2; n > 0; n--) { // n is which layer 
+
+        // get a pointer to current layer i and then the next layer 
+        Layer * current_layer = &network->layers[n]; 
+        Layer * next_layer = &network->layers[n + 1]; // next layer
+
+        // now loop over every neuron in the current layer 
+        for (int current_neuron = 0; current_neuron < current_layer->num_neurons; current_neuron++) { 
+
+            // fresh sum value for each neuron caculation
+            double sum = 0.0; 
+
+            // loop through each neuron in the next layer
+            for (int next_neuron = 0; next_neuron < next_layer->num_neurons; next_neuron++) {
+
+                // sum every neuron k in the next layer
+                sum += next_layer->neurons[next_neuron].delta * current_layer->weights[next_neuron][current_neuron]; 
+            }
+
+            // now multiply the sum by compute_ReLU_derivative & store result in current layer neuron delta
+            current_layer->neurons[current_neuron].delta = sum * compute_ReLU_derivative(current_layer->neurons[current_neuron].z); 
+        }
+    }
 }
 
 void update_parameters(Network * network, double learning_rate) {
@@ -204,6 +274,7 @@ double compute_ReLU(double num) {
  */
 double compute_ReLU_derivative(double num) {
 
+    // 1 for num greater than 0 and 0 when num is less than 0
     if (num > 0) {
 
         return 1.0; 
